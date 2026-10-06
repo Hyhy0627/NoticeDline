@@ -111,3 +111,6 @@ Nếu không muốn bật máy tính mà lịch vẫn tự đồng bộ mỗi 3 
    - Secret 2: `MOODLE_USERNAME` (Nhập MSSV của bạn).
    - Secret 3: `MOODLE_PASSWORD` (Nhập mật khẩu Moodle).
 5. Kịch bản `.github/workflows/sync.yml` sẽ tự động quét và cập nhật bài tập mới về điện thoại của bạn mỗi 3 tiếng 24/7.
+> [!NOTE]
+> **Chính sách tự động tắt sau 60 ngày:**
+> Nếu repo hoàn toàn không có tương tác hoặc commit nào mới trong vòng 60 ngày, GitHub có thể tự động tạm ngưng các scheduled cron để tiết kiệm tài nguyên (GitHub sẽ gửi email báo). Khi đó bạn chỉ cần vào tab **Actions** bấm **Enable workflow** lại là được.
