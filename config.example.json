@@ -1,0 +1,15 @@
+{
+  "moodle_username": "YOUR_STUDENT_ID",
+  "moodle_password": "YOUR_MOODLE_PASSWORD",
+  "moodle_session": "",
+  "moodle_urls": [
+    "https://courses.ut.edu.vn",
+    "https://thnn.ut.edu.vn"
+  ],
+  "google_calendar_id": "primary",
+  "show_status_in_title": true,
+  "use_color_tags": true,
+  "mute_reminders_for_completed": true,
+  "skip_completed_events": false,
+  "reminder_minutes": [4320, 2880, 1440, 600, 300]
+}

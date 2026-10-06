@@ -1,0 +1,36 @@
+name: Auto Sync Moodle Deadlines to Google Calendar
+
+on:
+  schedule:
+    # Chạy tự động mỗi 3 tiếng một lần (Cron UTC: 0 */3 * * *)
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # Cho phép nhấn chạy thủ công từ giao diện GitHub Actions
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run NoticeDl Sync
+        env:
+          MOODLE_USERNAME: ${{ secrets.MOODLE_USERNAME }}
+          MOODLE_PASSWORD: ${{ secrets.MOODLE_PASSWORD }}
+          MOODLE_SESSION: ${{ secrets.MOODLE_SESSION }}
+          MOODLE_ICAL_URL: ${{ secrets.MOODLE_ICAL_URL }}
+          MOODLE_URLS: ${{ secrets.MOODLE_URLS || '' }}
+          GOOGLE_TOKEN_BASE64: ${{ secrets.GOOGLE_TOKEN_BASE64 }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID || 'primary' }}
+        run: |
+          python main.py
