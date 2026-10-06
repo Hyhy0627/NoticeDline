@@ -1,4 +1,4 @@
-# 📌 NoticeDl - Tool Đồng Bộ Lịch & Deadline UTH Moodle lên Google Calendar
+# 📌 NoticeDline - Tool Đồng Bộ Lịch & Deadline UTH Moodle lên Google Calendar
 
 Công cụ giúp sinh viên **Trường Đại học Giao thông vận tải TP.HCM (UTH)** tự động thu thập danh sách bài tập/deadline từ **Moodle (`courses.ut.edu.vn`)** và đồng bộ sang **Google Calendar** kèm thông báo nhắc nhở (trước 1 ngày, 3 giờ, 1 giờ).
 
@@ -38,7 +38,7 @@ Các file chính trong dự án:
 1. Chọn menu **`OAuth consent screen`** *(hoặc **Google Auth Platform**)* ở cột bên trái.
 2. Nhấn nút màu xanh **`Get started`** ở giữa màn hình.
 3. Điền các thông tin cơ bản:
-   - **App name**: Nhập `NoticeDl`
+   - **App name**: Nhập `NoticeDline` 
    - **User support email**: Chọn địa chỉ Gmail của bạn.
    - **Audience** *(User Type)*: Chọn **External** (Ngoại bộ).
    - **Developer contact information**: Điền địa chỉ Gmail của bạn.
@@ -51,7 +51,7 @@ Các file chính trong dự án:
 1. Ở menu bên trái, chọn **`Clients`** *(hoặc Credentials)*.
 2. Phía trên cùng, bấm nút **`+ Create Client`** *(hoặc Create Credentials $\rightarrow$ OAuth client ID)*.
 3. **Application type**: Chọn **Desktop app** (Ứng dụng máy tính).
-4. **Name**: Điền `NoticeDl Client` $\rightarrow$ Nhấn **Create**.
+4. **Name**: Điền `NoticeDline Client` $\rightarrow$ Nhấn **Create**.
 5. Hộp thoại hiện ra $\rightarrow$ Nhấn nút **`Download JSON`** để tải file về máy.
 6. **Đổi tên file vừa tải thành `credentials.json`** và di chuyển vào thư mục gốc của dự án.
 
