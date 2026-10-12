@@ -38,9 +38,7 @@
 Trong thư mục dự án có sẵn file cấu hình mẫu là `config.example.json`:
 
 1. **Tạo file cấu hình**:
-   - Nhấp chuột phải vào file **`config.example.json`** $
-ightarrow$ chọn **Copy** $
-ightarrow$ **Paste**.
+   - Nhấp chuột phải vào file **`config.example.json`** → chọn **Copy** → **Paste**.
    - Đổi tên file vừa paste thành **`config.json`**.
 
 2. **Điền thông tin của bạn**:
@@ -73,31 +71,19 @@ Nếu bạn muốn tự quản lý dự án độc lập:
 1. **Truy cập Google Cloud Console**:
    - Vào [https://console.cloud.google.com/](https://console.cloud.google.com/) và đăng nhập tài khoản Google của bạn.
 2. **Bật Google Calendar API**:
-   - Chọn menu **APIs & Services** $
-ightarrow$ chọn **Library** ở cột bên trái.
-   - Tìm kiếm **`Google Calendar API`** $
-ightarrow$ Bấm vào kết quả $
-ightarrow$ Bấm nút xanh **Enable** (Bật).
+   - Chọn menu **APIs & Services** → chọn **Library** ở cột bên trái.
+   - Tìm kiếm **`Google Calendar API`** → Bấm vào kết quả → Bấm nút xanh **Enable** (Bật).
 3. **Cấu hình OAuth consent screen**:
-   - Chọn menu **OAuth consent screen** ở cột bên trái $
-ightarrow$ Bấm **Get started**.
+   - Chọn menu **OAuth consent screen** ở cột bên trái → Bấm **Get started**.
    - **App name**: Điền `NoticeDline`.
    - **User support email**: Chọn email của bạn.
-   - **Audience**: Chọn **External** $
-ightarrow$ Nhấn **Create/Save**.
-   - ⚠️ **Thêm Test Users (Rất quan trọng)**: Ở menu bên trái chọn **Audience** $
-ightarrow$ kéo xuống mục **Test users** $
-ightarrow$ bấm **+ Add users** $
-ightarrow$ nhập chính địa chỉ Gmail của bạn vào $
-ightarrow$ Lưu lại.
+   - **Audience**: Chọn **External** → Nhấn **Create/Save**.
+   - ⚠️ **Thêm Test Users (Rất quan trọng)**: Ở menu bên trái chọn **Audience** → kéo xuống mục **Test users** → bấm **+ Add users** → nhập chính địa chỉ Gmail của bạn vào → Lưu lại.
 4. **Tải file `credentials.json`**:
-   - Ở cột bên trái chọn **Clients** (hoặc Credentials) $
-ightarrow$ bấm **+ Create Client** (OAuth client ID).
+   - Ở cột bên trái chọn **Clients** (hoặc Credentials) → bấm **+ Create Client** (OAuth client ID).
    - **Application type**: Chọn **Desktop app**.
-   - **Name**: Điền `NoticeDline Client` $
-ightarrow$ bấm **Create**.
-   - Cửa sổ hiện ra $
-ightarrow$ bấm **Download JSON**.
+   - **Name**: Điền `NoticeDline Client` → bấm **Create**.
+   - Cửa sổ hiện ra → bấm **Download JSON**.
    - **Đổi tên file vừa tải thành `credentials.json`** và copy vào ngay thư mục dự án này.
 
 ---
@@ -113,10 +99,8 @@ ightarrow$ bấm **Download JSON**.
 2. **Xác thực tài khoản Google**:
    - Trình duyệt web sẽ tự động mở lên trang đăng nhập của Google.
    - Bạn chọn đúng tài khoản Gmail muốn nhận lịch.
-   - Nếu thấy cảnh báo *"Google chưa xác minh ứng dụng này"*, bấm **Nâng cao (Advanced)** $
-ightarrow$ chọn **Đi tới NoticeDline (Không an toàn)**.
-   - Tích chọn cấp quyền truy cập Lịch $
-ightarrow$ Bấm **Tiếp tục / Cho phép (Continue/Allow)**.
+   - Nếu thấy cảnh báo *"Google chưa xác minh ứng dụng này"*, bấm **Nâng cao (Advanced)** → chọn **Đi tới NoticeDline (Không an toàn)**.
+   - Tích chọn cấp quyền truy cập Lịch → Bấm **Tiếp tục / Cho phép (Continue/Allow)**.
 
 3. **Kết quả**:
    - Màn hình hiển thị: *"The authentication flow has completed. You may close this window"*.
@@ -141,18 +125,14 @@ Nếu bạn không muốn mỗi ngày phải bật máy tính chạy thủ công
    - Sao chép toàn bộ chuỗi ký tự Base64 hiển thị trên màn hình.
 
 3. **Cài đặt Secrets trên GitHub**:
-   - Mở Repo của bạn trên GitHub $
-ightarrow$ chọn tab **Settings** $
-ightarrow$ chọn **Secrets and variables** $
-ightarrow$ **Actions**.
+   - Mở Repo của bạn trên GitHub → chọn tab **Settings** → chọn **Secrets and variables** → **Actions**.
    - Bấm nút **New repository secret** để thêm 3 biến sau:
      - 🔑 **`GOOGLE_TOKEN_BASE64`**: Dán chuỗi mã hóa vừa copy ở Bước 2.
      - 🔑 **`MOODLE_USERNAME`**: Điền MSSV của bạn.
      - 🔑 **`MOODLE_PASSWORD`**: Điền mật khẩu Moodle/Portal của bạn.
 
 4. **Kiểm tra hoạt động**:
-   - Vào tab **Actions** trên GitHub $
-ightarrow$ chọn workflow **`Auto Sync Moodle Deadlines to Google Calendar`**.
+   - Vào tab **Actions** trên GitHub → chọn workflow **`Auto Sync Moodle Deadlines to Google Calendar`**.
    - Bấm nút **Run workflow** (màu xanh bên phải) để chạy thử ngay lập tức.
    - Khi hiện dấu tick xanh ✅ là thành công! Kể từ nay, cứ mỗi 3 tiếng GitHub sẽ tự động cập nhật bài tập mới nhất về Google Calendar trên điện thoại của bạn.
 
