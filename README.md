@@ -1,116 +1,168 @@
-# 📌 NoticeDline - Tool Đồng Bộ Lịch & Deadline UTH Moodle lên Google Calendar
+# 📌 NoticeDline - Tool Tự Động Đồng Bộ Lịch Học (TKB Portal) & Deadline UTH Moodle lên Google Calendar
 
-Công cụ giúp sinh viên **Trường Đại học Giao thông vận tải TP.HCM (UTH)** tự động thu thập danh sách bài tập/deadline từ **Moodle (`courses.ut.edu.vn`)** và đồng bộ sang **Google Calendar** kèm thông báo nhắc nhở (trước 1 ngày, 3 giờ, 1 giờ).
-
----
-
-## 📖 BẢNG TỔNG HỢP TOÀN BỘ CÁC BƯỚC THỰC HIỆN (TỪ A - Z)
+> Dành riêng cho sinh viên **Trường Đại học Giao thông vận tải TP.HCM (UTH)**.
+> Giúp bạn tự động đồng bộ toàn bộ lịch học và bài tập về điện thoại/laptop, không bao giờ lo quên giờ vào lớp hay trễ hạn nộp bài!
 
 ---
 
-### GIAI ĐOẠN 1: Chuẩn bị dự án trên máy cá nhân
-Tải mã nguồn (hoặc Clone từ GitHub) về máy tính của bạn, sau đó mở Terminal tại thư mục dự án và cài đặt thư viện:
-```bash
-pip install -r requirements.txt
-```
-
-Các file chính trong dự án:
-- `main.py`: File khởi chạy chính.
-- `moodle_fetcher.py`: Đăng nhập & cào danh sách deadline từ UTH Moodle.
-- `gcal_notifier.py`: Tương tác Google Calendar API & đặt nhắc nhở.
-- `config.json`: Lưu thông tin cấu hình cá nhân.
-- `encode_token.py`: Script mã hóa Token cho GitHub Secrets.
-- `.github/workflows/sync.yml`: Tự động đồng bộ 24/7 trên đám mây.
+### 🌟 Các tính năng nổi bật:
+1. 📅 **Tự động quét Thời khóa biểu (TKB) từ [portal.ut.edu.vn](https://portal.ut.edu.vn/calendar)**: Bắt trọn mọi buổi học trong tuần/học kỳ, hiển thị tên môn, mã lớp, tiết học, giờ học, phòng học, kèm link lớp LMS và link Zoom/Teams.
+2. 🔎 **Quét sâu từng môn học (Deep Course Scanner)**: Tự động truy cập vào từng môn học trên Moodle (`courses.ut.edu.vn` & `thnn.ut.edu.vn`) để quét sạch 100% bài tập / trắc nghiệm (Assignment & Quiz) — **giải quyết triệt để tình trạng bỏ sót bài do giảng viên không đưa lên Lịch chung**.
+3. 🔔 **Chuông thông báo thông minh**:
+   - ⏰ **Thời khóa biểu**: Báo trước **2 tiếng** và **1 tiếng** trước giờ vào lớp.
+   - ⏳ **Deadline bài tập**: Báo trước **3 ngày, 2 ngày, 1 ngày, 10 tiếng, 5 tiếng**.
+   - 🔕 **Chống làm phiền**: Tự động tắt chuông nếu bài tập đã hoàn thành.
+4. 🎨 **Màu sắc trực quan trên Google Calendar**:
+   - 🔵 **Xanh dương (Blueberry)**: Buổi học Thời khóa biểu.
+   - 🟢 **Xanh lá cây (Basil)**: Bài tập / Quiz đã hoàn thành `✅ [ĐÃ LÀM]` (kèm điểm số nếu có).
+   - 🔴 **Đỏ (Tomato)**: Bài tập sắp đến hạn nhưng chưa làm `⏳ [CHƯA LÀM]` hoặc buổi học TKB bị tạm ngưng/báo nghỉ.
 
 ---
 
-### GIAI ĐOẠN 2: Tạo Google Cloud Credentials (`credentials.json`)
-
-#### Bước 2.1: Truy cập Google Cloud Console
-- Truy cập địa chỉ: [https://console.cloud.google.com/](https://console.cloud.google.com/) và đăng nhập tài khoản Gmail của bạn.
-
-#### Bước 2.2: Bật Google Calendar API
-1. Tại màn hình chính (Quick access), chọn **`APIs & Services`** *(hoặc gõ `Google Calendar API` trên thanh tìm kiếm đỉnh trang)*.
-2. Chọn **Library** (Thư viện) ở menu cột bên trái.
-3. Tìm kiếm **`Google Calendar API`** $\rightarrow$ Nhấn vào kết quả $\rightarrow$ Nhấn nút **Enable** (Bật).
-
-#### Bước 2.3: Cấu hình Màn hình đồng ý OAuth (Google Auth Platform)
-1. Chọn menu **`OAuth consent screen`** *(hoặc **Google Auth Platform**)* ở cột bên trái.
-2. Nhấn nút màu xanh **`Get started`** ở giữa màn hình.
-3. Điền các thông tin cơ bản:
-   - **App name**: Nhập `NoticeDline` 
-   - **User support email**: Chọn địa chỉ Gmail của bạn.
-   - **Audience** *(User Type)*: Chọn **External** (Ngoại bộ).
-   - **Developer contact information**: Điền địa chỉ Gmail của bạn.
-   - Nhấn **Create** (hoặc Save).
-4. **Thêm Email dùng thử (Rất quan trọng)**:
-   - Ở menu bên trái, chọn **`Audience`** $\rightarrow$ Kéo xuống mục **Test users** $\rightarrow$ Bấm **`+ Add users`**.
-   - Nhập địa chỉ Gmail của bạn vào $\rightarrow$ Nhấn **Save**.
-
-#### Bước 2.4: Tạo và tải file `credentials.json`
-1. Ở menu bên trái, chọn **`Clients`** *(hoặc Credentials)*.
-2. Phía trên cùng, bấm nút **`+ Create Client`** *(hoặc Create Credentials $\rightarrow$ OAuth client ID)*.
-3. **Application type**: Chọn **Desktop app** (Ứng dụng máy tính).
-4. **Name**: Điền `NoticeDline Client` $\rightarrow$ Nhấn **Create**.
-5. Hộp thoại hiện ra $\rightarrow$ Nhấn nút **`Download JSON`** để tải file về máy.
-6. **Đổi tên file vừa tải thành `credentials.json`** và di chuyển vào thư mục gốc của dự án.
+## 📖 HƯỚNG DẪN CÀI ĐẶT TỪ A - Z (DÀNH CHO NGƯỜI MỚI BẮT ĐẦU)
 
 ---
 
-### GIAI ĐOẠN 3: Cấu hình tài khoản & Chạy khởi tạo lần đầu
+### GIAI ĐOẠN 1: Chuẩn bị môi trường Python
 
-#### Bước 3.1: Điền thông tin Moodle UTH
-Tạo file **`config.json`** (bằng cách sao chép từ `config.example.json`) và điền tài khoản Moodle UTH của bạn:
-```json
-{
-  "moodle_username": "MSSV_CỦA_BẠN",
-  "moodle_password": "MẬT_KHẨU_MOODLE",
-  "google_calendar_id": "primary",
-  "show_status_in_title": true,
-  "use_color_tags": true,
-  "mute_reminders_for_completed": true,
-  "skip_completed_events": false,
-  "reminder_minutes": [1440, 180, 60]
-}
-```
+1. **Cài đặt Python (Nếu máy bạn chưa có)**:
+   - Tải Python từ trang chủ: [https://www.python.org/downloads/](https://www.python.org/downloads/) (khuyên dùng Python 3.10 trở lên).
+   - ⚠️ **LƯU Ý CỰC KỲ QUAN TRỌNG KHI CÀI ĐẶT**: Ở màn hình đầu tiên khi cài đặt, hãy tích chọn vào ô **`Add python.exe to PATH`** trước khi bấm *Install Now*.
 
-> **Tính năng tự động nhận diện bài ĐÃ LÀM / CHƯA LÀM:**
-> - **Tiêu đề**: Tự động gắn tag `✅ [ĐÃ LÀM]` hoặc `⏳ [CHƯA LÀM]` ở đầu tiêu đề sự kiện.
-> - **Màu sắc trên Google Calendar**:
->   - 🟢 **Xanh lá cây (Basil)**: Dành cho bài đã nộp/đã làm xong (kèm điểm số nếu có).
->   - 🔴 **Đỏ (Tomato)**: Dành cho bài trắc nghiệm/bài tập sắp hết hạn nhưng chưa làm.
->   - 🔵 **Xanh lam (Peacock)**: Dành cho sự kiện thông tin / điểm danh.
-> - **Chống làm phiền**: Tự động tắt chuông nhắc nhở nếu bài đó đã làm xong.
-> - **Tùy chọn ẩn bài đã làm**: Nếu chỉ muốn lịch hiển thị việc cần làm, đặt `"skip_completed_events": true`.
-
-#### Bước 3.2: Thực thi lệnh chạy thử
-Mở Terminal / PowerShell tại thư mục dự án và gõ:
-```bash
-python main.py
-```
-
-#### Bước 3.3: Cấp quyền xác thực Google
-- Trình duyệt tự động mở trang đăng nhập Google.
-- Bạn chọn tài khoản Gmail $\rightarrow$ Nhấn **Tiếp tục (Continue) / Allow** để xác nhận cấp quyền.
-- File `token.json` sẽ tự động được sinh ra và bài tập sẽ được đẩy sang Google Calendar ngay lập tức!
+2. **Cài đặt thư viện cần thiết**:
+   - Mở cửa sổ **Terminal** (hoặc **PowerShell** / **Command Prompt**) tại thư mục dự án vừa tải về.
+   - Chạy lệnh sau để tự động cài đặt toàn bộ thư viện:
+     ```bash
+     pip install -r requirements.txt
+     ```
 
 ---
 
-### GIAI ĐOẠN 4: Thiết lập tự động đồng bộ 24/7 trên GitHub (Miễn phí)
+### GIAI ĐOẠN 2: Cấu hình tài khoản sinh viên (`config.json`)
 
-Nếu không muốn bật máy tính mà lịch vẫn tự đồng bộ mỗi 3 tiếng:
+Trong thư mục dự án có sẵn file cấu hình mẫu là `config.example.json`:
 
-1. Đưa toàn bộ thư mục dự án này lên **Private Repository** trên GitHub của bạn.
-2. Chạy lệnh mã hóa token trên máy cá nhân:
-   ```bash
-   python encode_token.py
-   ```
-3. Copy chuỗi mã hóa hiển thị trên màn hình.
-4. Trên GitHub Repo, vào **Settings** $\rightarrow$ **Secrets and variables** $\rightarrow$ **Actions** $\rightarrow$ **New repository secret**:
-   - Secret 1: `GOOGLE_TOKEN_BASE64` (Dán chuỗi vừa mã hóa ở Bước 2).
-   - Secret 2: `MOODLE_USERNAME` (Nhập MSSV của bạn).
-   - Secret 3: `MOODLE_PASSWORD` (Nhập mật khẩu Moodle).
-5. Kịch bản `.github/workflows/sync.yml` sẽ tự động quét và cập nhật bài tập mới về điện thoại của bạn mỗi 3 tiếng 24/7.
-> [!NOTE]
-> **Chính sách tự động tắt sau 60 ngày:**
-> Nếu repo hoàn toàn không có tương tác hoặc commit nào mới trong vòng 60 ngày, GitHub có thể tự động tạm ngưng các scheduled cron để tiết kiệm tài nguyên (GitHub sẽ gửi email báo). Khi đó bạn chỉ cần vào tab **Actions** bấm **Enable workflow** lại là được.
+1. **Tạo file cấu hình**:
+   - Nhấp chuột phải vào file **`config.example.json`** $ightarrow$ chọn **Copy** $ightarrow$ **Paste**.
+   - Đổi tên file vừa paste thành **`config.json`**.
+
+2. **Điền thông tin của bạn**:
+   - Mở file **`config.json`** bằng Notepad hoặc VS Code.
+   - Điền MSSV và Mật khẩu của bạn vào 2 dòng đầu tiên:
+     ```json
+     {
+       "moodle_username": "MSSV_CỦA_BẠN",
+       "moodle_password": "MẬT_KHẨU_MOODLE_HOẶC_PORTAL",
+       "google_calendar_id": "primary",
+       "moodle_urls": [
+         "https://courses.ut.edu.vn",
+         "https://thnn.ut.edu.vn"
+       ],
+       "sync_timetable": true,
+       "timetable_weeks_back": 1,
+       "timetable_weeks_ahead": 12,
+       "timetable_reminder_minutes": [120, 60],
+       "deep_scan_courses": true,
+       "show_status_in_title": true,
+       "use_color_tags": true,
+       "mute_reminders_for_completed": true,
+       "skip_completed_events": false,
+       "reminder_minutes": [4320, 2880, 1440, 600, 300]
+     }
+     ```
+   - Bấm **Ctrl + S** để lưu lại.
+
+---
+
+### GIAI ĐOẠN 3: Chuẩn bị chìa khóa kết nối (`credentials.json`)
+
+Để tool được quyền ghi sự kiện vào Google Calendar của bạn, cần có file `credentials.json`. Bạn chọn **1 trong 2 cách** sau:
+
+#### 👉 Cách 1: Nhanh nhất (Chỉ 1 phút - Khuyên dùng)
+Nếu người chia sẻ tool cho bạn đã tạo sẵn Google Cloud Project:
+1. Gửi địa chỉ **Gmail** của bạn cho người chia sẻ để họ thêm vào danh sách *Test Users*.
+2. Nhận file **`credentials.json`** từ người chia sẻ và dán trực tiếp vào thư mục dự án này.
+3. *Xong! Bạn chuyển ngay sang Giai đoạn 4.*
+
+---
+
+#### 👉 Cách 2: Tự tạo Google Cloud Project riêng từ A - Z
+Nếu bạn muốn tự quản lý dự án độc lập:
+1. **Truy cập Google Cloud Console**:
+   - Vào [https://console.cloud.google.com/](https://console.cloud.google.com/) và đăng nhập tài khoản Google của bạn.
+2. **Bật Google Calendar API**:
+   - Chọn menu **APIs & Services** $ightarrow$ chọn **Library** ở cột bên trái.
+   - Tìm kiếm **`Google Calendar API`** $ightarrow$ Bấm vào kết quả $ightarrow$ Bấm nút xanh **Enable** (Bật).
+3. **Cấu hình OAuth consent screen**:
+   - Chọn menu **OAuth consent screen** ở cột bên trái $ightarrow$ Bấm **Get started**.
+   - **App name**: Điền `NoticeDline`.
+   - **User support email**: Chọn email của bạn.
+   - **Audience**: Chọn **External** $ightarrow$ Nhấn **Create/Save**.
+   - ⚠️ **Thêm Test Users (Rất quan trọng)**: Ở menu bên trái chọn **Audience** $ightarrow$ kéo xuống mục **Test users** $ightarrow$ bấm **+ Add users** $ightarrow$ nhập chính địa chỉ Gmail của bạn vào $ightarrow$ Lưu lại.
+4. **Tải file `credentials.json`**:
+   - Ở cột bên trái chọn **Clients** (hoặc Credentials) $ightarrow$ bấm **+ Create Client** (OAuth client ID).
+   - **Application type**: Chọn **Desktop app**.
+   - **Name**: Điền `NoticeDline Client` $ightarrow$ bấm **Create**.
+   - Cửa sổ hiện ra $ightarrow$ bấm **Download JSON**.
+   - **Đổi tên file vừa tải thành `credentials.json`** và copy vào ngay thư mục dự án này.
+
+---
+
+### GIAI ĐOẠN 4: Chạy thử nghiệm lần đầu & Cấp quyền Google
+
+1. **Khởi chạy tool**:
+   - Mở Terminal / PowerShell tại thư mục dự án và gõ lệnh:
+     ```bash
+     python main.py
+     ```
+
+2. **Xác thực tài khoản Google**:
+   - Trình duyệt web sẽ tự động mở lên trang đăng nhập của Google.
+   - Bạn chọn đúng tài khoản Gmail muốn nhận lịch.
+   - Nếu thấy cảnh báo *"Google chưa xác minh ứng dụng này"*, bấm **Nâng cao (Advanced)** $ightarrow$ chọn **Đi tới NoticeDline (Không an toàn)**.
+   - Tích chọn cấp quyền truy cập Lịch $ightarrow$ Bấm **Tiếp tục / Cho phép (Continue/Allow)**.
+
+3. **Kết quả**:
+   - Màn hình hiển thị: *"The authentication flow has completed. You may close this window"*.
+   - Quay lại màn hình Terminal, bạn sẽ thấy tool tự động quét và đồng bộ toàn bộ buổi học TKB cùng các deadline lên Google Calendar!
+   - File `token.json` sẽ tự động được sinh ra để ghi nhớ phiên đăng nhập vĩnh viễn (lần sau chạy sẽ không hỏi lại nữa).
+
+---
+
+### GIAI ĐOẠN 5: Tự động hóa 24/7 trên GitHub Actions (Miễn phí, không cần mở máy)
+
+Nếu bạn không muốn mỗi ngày phải bật máy tính chạy thủ công, hãy để máy chủ GitHub tự động chạy thay bạn mỗi 3 tiếng:
+
+1. **Đưa code lên GitHub cá nhân**:
+   - Tạo một Repository mới trên GitHub của bạn ở chế độ **Private** (Riêng tư).
+   - Tải toàn bộ thư mục code này lên Repository đó *(yên tâm vì `.gitignore` đã tự động ẩn file mật khẩu `config.json` và `token.json` nên tuyệt đối an toàn)*.
+
+2. **Lấy mã token Google**:
+   - Trên máy tính cá nhân của bạn, mở Terminal tại thư mục tool và chạy:
+     ```bash
+     python encode_token.py
+     ```
+   - Sao chép toàn bộ chuỗi ký tự Base64 hiển thị trên màn hình.
+
+3. **Cài đặt Secrets trên GitHub**:
+   - Mở Repo của bạn trên GitHub $ightarrow$ chọn tab **Settings** $ightarrow$ chọn **Secrets and variables** $ightarrow$ **Actions**.
+   - Bấm nút **New repository secret** để thêm 3 biến sau:
+     - 🔑 **`GOOGLE_TOKEN_BASE64`**: Dán chuỗi mã hóa vừa copy ở Bước 2.
+     - 🔑 **`MOODLE_USERNAME`**: Điền MSSV của bạn.
+     - 🔑 **`MOODLE_PASSWORD`**: Điền mật khẩu Moodle/Portal của bạn.
+
+4. **Kiểm tra hoạt động**:
+   - Vào tab **Actions** trên GitHub $ightarrow$ chọn workflow **`Auto Sync Moodle Deadlines to Google Calendar`**.
+   - Bấm nút **Run workflow** (màu xanh bên phải) để chạy thử ngay lập tức.
+   - Khi hiện dấu tick xanh ✅ là thành công! Kể từ nay, cứ mỗi 3 tiếng GitHub sẽ tự động cập nhật bài tập mới nhất về Google Calendar trên điện thoại của bạn.
+
+---
+
+## ❓ CÂU HỎI THƯỜNG GẶP (FAQ)
+
+- **Q: Tôi chỉ muốn xem các bài tập CHƯA LÀM, ẩn bớt bài đã xong cho đỡ rối mắt?**
+  - **A:** Mở file `config.json`, đổi `"skip_completed_events": true`.
+- **Q: Muốn đổi thời gian chuông báo trước khi vào lớp thì làm thế nào?**
+  - **A:** Trong `config.json`, sửa `"timetable_reminder_minutes": [120, 60]` thành số phút bạn muốn (ví dụ `[60, 30]` là báo trước 1 tiếng và 30 phút).
+- **Q: Tại sao sau 60 ngày GitHub Actions ngừng tự động chạy?**
+  - **A:** Đây là chính sách tiết kiệm tài nguyên của GitHub đối với các repo không có commit mới sau 60 ngày. Bạn chỉ cần vào tab **Actions** bấm **Enable workflow** lại là được.

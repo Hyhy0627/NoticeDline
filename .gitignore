@@ -1,6 +1,6 @@
 # Thông tin bảo mật cá nhân (Không đưa lên GitHub công khai)
 credentials.json
-token.json
+token*.json
 config.json
 .env
 

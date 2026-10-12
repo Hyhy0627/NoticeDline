@@ -1,15 +1,28 @@
-{
+﻿{
   "moodle_username": "YOUR_STUDENT_ID",
   "moodle_password": "YOUR_MOODLE_PASSWORD",
-  "moodle_session": "",
+  "google_calendar_id": "primary",
   "moodle_urls": [
     "https://courses.ut.edu.vn",
     "https://thnn.ut.edu.vn"
   ],
-  "google_calendar_id": "primary",
+  "sync_timetable": true,
+  "timetable_weeks_back": 1,
+  "timetable_weeks_ahead": 12,
+  "timetable_reminder_minutes": [
+    120,
+    60
+  ],
+  "deep_scan_courses": true,
   "show_status_in_title": true,
   "use_color_tags": true,
   "mute_reminders_for_completed": true,
   "skip_completed_events": false,
-  "reminder_minutes": [4320, 2880, 1440, 600, 300]
+  "reminder_minutes": [
+    4320,
+    2880,
+    1440,
+    600,
+    300
+  ]
 }

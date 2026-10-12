@@ -1,3 +1,12 @@
+"""
+encode_token.py - Script hỗ trợ mã hóa Google OAuth Token thành Base64.
+
+Mục đích:
+- File `token.json` chứa thông tin đăng nhập Google Calendar nhưng không được đẩy lên GitHub vì lý do bảo mật (.gitignore).
+- Để GitHub Actions (chạy trên đám mây 24/7) có thể thay bạn ghi lịch vào Google Calendar, script này chuyển đổi toàn bộ nội dung `token.json` thành 1 dòng Base64 duy nhất.
+- Bạn copy chuỗi in ra và dán vào GitHub Repo -> Settings -> Secrets -> GOOGLE_TOKEN_BASE64.
+"""
+
 import sys
 import os
 import base64
@@ -10,6 +19,7 @@ if sys.platform == "win32":
         pass
 
 def main():
+    """Đọc file token.json, mã hóa Base64 và in ra màn hình."""
     token_file = "token.json"
     if not os.path.exists(token_file):
         print(f"LỖI: Không tìm thấy file '{token_file}'. Hãy chạy 'python main.py' xác thực thành công trước!")
