@@ -58,15 +58,7 @@ Trong thư mục dự án có sẵn file cấu hình mẫu là `config.example.j
 
 Để tool được quyền ghi sự kiện vào Google Calendar của bạn, cần có file `credentials.json`. Bạn chọn **1 trong 2 cách** sau:
 
-#### 👉 Cách 1: Nhanh nhất (Chỉ 1 phút - Khuyên dùng)
-Nếu người chia sẻ tool cho bạn đã tạo sẵn Google Cloud Project:
-1. Gửi địa chỉ **Gmail** của bạn cho người chia sẻ để họ thêm vào danh sách *Test Users*.
-2. Nhận file **`credentials.json`** từ người chia sẻ và dán trực tiếp vào thư mục dự án này.
-3. *Xong! Bạn chuyển ngay sang Giai đoạn 4.*
-
----
-
-#### 👉 Cách 2: Tự tạo Google Cloud Project riêng từ A - Z
+####  Tự tạo Google Cloud Project riêng từ A - Z
 Nếu bạn muốn tự quản lý dự án độc lập:
 1. **Truy cập Google Cloud Console**:
    - Vào [https://console.cloud.google.com/](https://console.cloud.google.com/) và đăng nhập tài khoản Google của bạn.
