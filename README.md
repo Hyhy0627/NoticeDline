@@ -23,13 +23,8 @@
 
 ---
 
-### GIAI ĐOẠN 1: Chuẩn bị môi trường Python
-
-1. **Cài đặt Python (Nếu máy bạn chưa có)**:
-   - Tải Python từ trang chủ: [https://www.python.org/downloads/](https://www.python.org/downloads/) (khuyên dùng Python 3.10 trở lên).
-   - ⚠️ **LƯU Ý CỰC KỲ QUAN TRỌNG KHI CÀI ĐẶT**: Ở màn hình đầu tiên khi cài đặt, hãy tích chọn vào ô **`Add python.exe to PATH`** trước khi bấm *Install Now*.
-
-2. **Cài đặt thư viện cần thiết**:
+### GIAI ĐOẠN 1: Chuẩn bị
+   **Cài đặt thư viện cần thiết**:
    - Mở cửa sổ **Terminal** (hoặc **PowerShell** / **Command Prompt**) tại thư mục dự án vừa tải về.
    - Chạy lệnh sau để tự động cài đặt toàn bộ thư viện:
      ```bash
@@ -43,7 +38,9 @@
 Trong thư mục dự án có sẵn file cấu hình mẫu là `config.example.json`:
 
 1. **Tạo file cấu hình**:
-   - Nhấp chuột phải vào file **`config.example.json`** $ightarrow$ chọn **Copy** $ightarrow$ **Paste**.
+   - Nhấp chuột phải vào file **`config.example.json`** $
+ightarrow$ chọn **Copy** $
+ightarrow$ **Paste**.
    - Đổi tên file vừa paste thành **`config.json`**.
 
 2. **Điền thông tin của bạn**:
@@ -52,22 +49,7 @@ Trong thư mục dự án có sẵn file cấu hình mẫu là `config.example.j
      ```json
      {
        "moodle_username": "MSSV_CỦA_BẠN",
-       "moodle_password": "MẬT_KHẨU_MOODLE_HOẶC_PORTAL",
-       "google_calendar_id": "primary",
-       "moodle_urls": [
-         "https://courses.ut.edu.vn",
-         "https://thnn.ut.edu.vn"
-       ],
-       "sync_timetable": true,
-       "timetable_weeks_back": 1,
-       "timetable_weeks_ahead": 12,
-       "timetable_reminder_minutes": [120, 60],
-       "deep_scan_courses": true,
-       "show_status_in_title": true,
-       "use_color_tags": true,
-       "mute_reminders_for_completed": true,
-       "skip_completed_events": false,
-       "reminder_minutes": [4320, 2880, 1440, 600, 300]
+       "moodle_password": "MẬT_KHẨU_MOODLE_HOẶC_PORTAL"
      }
      ```
    - Bấm **Ctrl + S** để lưu lại.
@@ -91,19 +73,31 @@ Nếu bạn muốn tự quản lý dự án độc lập:
 1. **Truy cập Google Cloud Console**:
    - Vào [https://console.cloud.google.com/](https://console.cloud.google.com/) và đăng nhập tài khoản Google của bạn.
 2. **Bật Google Calendar API**:
-   - Chọn menu **APIs & Services** $ightarrow$ chọn **Library** ở cột bên trái.
-   - Tìm kiếm **`Google Calendar API`** $ightarrow$ Bấm vào kết quả $ightarrow$ Bấm nút xanh **Enable** (Bật).
+   - Chọn menu **APIs & Services** $
+ightarrow$ chọn **Library** ở cột bên trái.
+   - Tìm kiếm **`Google Calendar API`** $
+ightarrow$ Bấm vào kết quả $
+ightarrow$ Bấm nút xanh **Enable** (Bật).
 3. **Cấu hình OAuth consent screen**:
-   - Chọn menu **OAuth consent screen** ở cột bên trái $ightarrow$ Bấm **Get started**.
+   - Chọn menu **OAuth consent screen** ở cột bên trái $
+ightarrow$ Bấm **Get started**.
    - **App name**: Điền `NoticeDline`.
    - **User support email**: Chọn email của bạn.
-   - **Audience**: Chọn **External** $ightarrow$ Nhấn **Create/Save**.
-   - ⚠️ **Thêm Test Users (Rất quan trọng)**: Ở menu bên trái chọn **Audience** $ightarrow$ kéo xuống mục **Test users** $ightarrow$ bấm **+ Add users** $ightarrow$ nhập chính địa chỉ Gmail của bạn vào $ightarrow$ Lưu lại.
+   - **Audience**: Chọn **External** $
+ightarrow$ Nhấn **Create/Save**.
+   - ⚠️ **Thêm Test Users (Rất quan trọng)**: Ở menu bên trái chọn **Audience** $
+ightarrow$ kéo xuống mục **Test users** $
+ightarrow$ bấm **+ Add users** $
+ightarrow$ nhập chính địa chỉ Gmail của bạn vào $
+ightarrow$ Lưu lại.
 4. **Tải file `credentials.json`**:
-   - Ở cột bên trái chọn **Clients** (hoặc Credentials) $ightarrow$ bấm **+ Create Client** (OAuth client ID).
+   - Ở cột bên trái chọn **Clients** (hoặc Credentials) $
+ightarrow$ bấm **+ Create Client** (OAuth client ID).
    - **Application type**: Chọn **Desktop app**.
-   - **Name**: Điền `NoticeDline Client` $ightarrow$ bấm **Create**.
-   - Cửa sổ hiện ra $ightarrow$ bấm **Download JSON**.
+   - **Name**: Điền `NoticeDline Client` $
+ightarrow$ bấm **Create**.
+   - Cửa sổ hiện ra $
+ightarrow$ bấm **Download JSON**.
    - **Đổi tên file vừa tải thành `credentials.json`** và copy vào ngay thư mục dự án này.
 
 ---
@@ -119,8 +113,10 @@ Nếu bạn muốn tự quản lý dự án độc lập:
 2. **Xác thực tài khoản Google**:
    - Trình duyệt web sẽ tự động mở lên trang đăng nhập của Google.
    - Bạn chọn đúng tài khoản Gmail muốn nhận lịch.
-   - Nếu thấy cảnh báo *"Google chưa xác minh ứng dụng này"*, bấm **Nâng cao (Advanced)** $ightarrow$ chọn **Đi tới NoticeDline (Không an toàn)**.
-   - Tích chọn cấp quyền truy cập Lịch $ightarrow$ Bấm **Tiếp tục / Cho phép (Continue/Allow)**.
+   - Nếu thấy cảnh báo *"Google chưa xác minh ứng dụng này"*, bấm **Nâng cao (Advanced)** $
+ightarrow$ chọn **Đi tới NoticeDline (Không an toàn)**.
+   - Tích chọn cấp quyền truy cập Lịch $
+ightarrow$ Bấm **Tiếp tục / Cho phép (Continue/Allow)**.
 
 3. **Kết quả**:
    - Màn hình hiển thị: *"The authentication flow has completed. You may close this window"*.
@@ -145,14 +141,18 @@ Nếu bạn không muốn mỗi ngày phải bật máy tính chạy thủ công
    - Sao chép toàn bộ chuỗi ký tự Base64 hiển thị trên màn hình.
 
 3. **Cài đặt Secrets trên GitHub**:
-   - Mở Repo của bạn trên GitHub $ightarrow$ chọn tab **Settings** $ightarrow$ chọn **Secrets and variables** $ightarrow$ **Actions**.
+   - Mở Repo của bạn trên GitHub $
+ightarrow$ chọn tab **Settings** $
+ightarrow$ chọn **Secrets and variables** $
+ightarrow$ **Actions**.
    - Bấm nút **New repository secret** để thêm 3 biến sau:
      - 🔑 **`GOOGLE_TOKEN_BASE64`**: Dán chuỗi mã hóa vừa copy ở Bước 2.
      - 🔑 **`MOODLE_USERNAME`**: Điền MSSV của bạn.
      - 🔑 **`MOODLE_PASSWORD`**: Điền mật khẩu Moodle/Portal của bạn.
 
 4. **Kiểm tra hoạt động**:
-   - Vào tab **Actions** trên GitHub $ightarrow$ chọn workflow **`Auto Sync Moodle Deadlines to Google Calendar`**.
+   - Vào tab **Actions** trên GitHub $
+ightarrow$ chọn workflow **`Auto Sync Moodle Deadlines to Google Calendar`**.
    - Bấm nút **Run workflow** (màu xanh bên phải) để chạy thử ngay lập tức.
    - Khi hiện dấu tick xanh ✅ là thành công! Kể từ nay, cứ mỗi 3 tiếng GitHub sẽ tự động cập nhật bài tập mới nhất về Google Calendar trên điện thoại của bạn.
 
